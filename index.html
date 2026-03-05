@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>TaxiLaser Reportes</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f4f6f9;
+margin:0;
+padding:40px;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+h1{
+margin-top:0;
+}
+
+label{
+font-weight:bold;
+display:block;
+margin-top:15px;
+}
+
+input,select,textarea{
+width:100%;
+padding:10px;
+margin-top:5px;
+border-radius:6px;
+border:1px solid #ccc;
+font-size:14px;
+}
+
+textarea{
+height:80px;
+}
+
+button{
+margin-top:20px;
+background:#0078d4;
+color:white;
+border:none;
+padding:12px;
+width:100%;
+font-size:16px;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+background:#106ebe;
+}
+
+.multiselect{
+height:120px;
+}
+
+.note{
+background:#fff3cd;
+padding:10px;
+border-radius:6px;
+margin-bottom:20px;
+font-size:13px;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+<h1>📋 Crear Reporte TaxiLaser</h1>
+
+<div class="note">
+Campos importantes:<br>
+Multa → Tipo de multa + Unidad + Observación<br>
+Deuda / Saldo → Monto + Unidad
+</div>
+
+<label>Categoría</label>
+<select id="categoria">
+
+<option>Deuda</option>
+<option>Saldo a favor</option>
+<option>Warning</option>
+<option>Multa</option>
+<option>Llanta pinchada</option>
+<option>PendienteRevision</option>
+
+</select>
+
+
+<label>Monto</label>
+<input id="monto" placeholder="$0">
+
+
+<label>Tipo de multa</label>
+<select id="tipo_multa">
+
+<option value="">Seleccionar</option>
+
+<option value="1060DF|Documentación falsa o alterada|300">
+Adulteramiento de documentación - $300
+</option>
+
+<option value="1060CA|Ceder el app a un tercero|500">
+Ceder el app a un tercero - $500
+</option>
+
+<option value="1060VNR|Vehículo distinto|100">
+Vehículo distinto - $100
+</option>
+
+<option value="1060VS|Vehículo sucio|20">
+Vehículo sucio - $20
+</option>
+
+<option value="1060RC|Reclamo cliente|20">
+Reclamo cliente - $20
+</option>
+
+</select>
+
+
+<label>Notificar a</label>
+
+<select id="notificar" class="multiselect" multiple>
+
+<option value="PRINCIPALES">PRINCIPALES</option>
+<option value="TAXIMETRO">TAXIMETRO</option>
+<option value="MANAGERS">MANAGERS</option>
+<option value="ADMINISTRACION">ADMINISTRACION</option>
+<option value="SUPERVISORES">SUPERVISORES</option>
+<option value="REPORTES">REPORTES</option>
+
+</select>
+
+
+
+<label>Unidad</label>
+<input id="unidad" value="D">
+
+
+<label>Nombre cliente</label>
+<input id="nombre_cliente">
+
+
+<label>Teléfono cliente</label>
+<input id="telefono_cliente">
+
+
+<label>N° Servicio</label>
+<input id="numero_servicio" value="S/N">
+
+
+<label>Observación</label>
+<textarea id="observacion"></textarea>
+
+
+<button onclick="enviarReporte()">
+Enviar Reporte
+</button>
+
+</div>
+
+
+
+<script>
+
+const WEBHOOK="PEGAR_AQUI_WEBHOOK_POWER_AUTOMATE";
+
+async function enviarReporte(){
+
+const notificarSelect=document.getElementById("notificar");
+
+const notificar=[...notificarSelect.selectedOptions]
+.map(o=>o.value)
+.join(",");
+
+
+const data={
+
+categoria:document.getElementById("categoria").value,
+monto:document.getElementById("monto").value,
+tipo_multa:document.getElementById("tipo_multa").value,
+notificar:notificar,
+unidad:document.getElementById("unidad").value,
+nombre_cliente:document.getElementById("nombre_cliente").value,
+telefono_cliente:document.getElementById("telefono_cliente").value,
+numero_servicio:document.getElementById("numero_servicio").value,
+observacion:document.getElementById("observacion").value,
+
+usuario:"Operador Teams",
+action:"submitReporte",
+fecha:new Date().toISOString()
+
+};
+
+await fetch(WEBHOOK,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(data)
+});
+
+alert("✅ Reporte enviado");
+
+}
+
+</script>
+
+</body>
+</html>
