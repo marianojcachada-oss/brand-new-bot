@@ -1,3 +1,25 @@
+.header{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:25px;
+}
+
+.logo{
+font-size:32px;
+}
+
+.title h1{
+margin:0;
+font-size:22px;
+font-weight:600;
+}
+
+.title span{
+font-size:13px;
+color:#6B7280;
+}
+
 body{
 font-family: "Segoe UI", system-ui, sans-serif;
 background:#F5F7FB;
