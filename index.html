@@ -6,6 +6,7 @@
 
 </head>
 
+<script src="https://res.cdn.office.net/teams-js/2.0.0/js/MicrosoftTeams.min.js"></script>
 
 <body>
 
@@ -336,6 +337,14 @@ const notificar=[...document.querySelectorAll('#notificar input:checked')]
 .map(c=>c.value)
 .join(",");
 
+let usuario = "Desconocido";
+
+microsoftTeams.app.initialize();
+
+microsoftTeams.app.getContext().then(context => {
+    usuario = context.user.displayName;
+});
+  
 const data={
 
 categoria:document.getElementById("categoria").value,
@@ -348,7 +357,7 @@ telefono_cliente:document.getElementById("telefono_cliente").value,
 numero_servicio:document.getElementById("numero_servicio").value,
 observacion:document.getElementById("observacion").value,
 
-usuario:"Operador Teams",
+usuario: usuario,
 action:"submitReporte",
 fecha:new Date().toISOString()
 
