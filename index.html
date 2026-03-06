@@ -161,113 +161,61 @@ alert("✅ Reporte enviado");
 
 const categoria = document.getElementById("categoria");
 
-const campos = {
-numero_servicio: document.getElementById("numero_servicio"),
-notificar: document.getElementById("notificar"),
-nombre_cliente: document.getElementById("nombre_cliente"),
-telefono_cliente: document.getElementById("telefono_cliente"),
-monto: document.getElementById("monto"),
-observacion: document.getElementById("observacion"),
-unidad: document.getElementById("unidad"),
-tipo_multa: document.getElementById("tipo_multa")
-};
+const monto = document.getElementById("monto");
+const tipoMulta = document.getElementById("tipo_multa");
+const unidad = document.getElementById("unidad");
+const observacion = document.getElementById("observacion");
 
 function limpiarCampos(){
+  [monto, tipoMulta, unidad, observacion].forEach(c=>{
+    if(!c) return;
 
-Object.entries(campos).forEach(([nombre, campo])=>{
+    c.classList.remove("requerido");
 
-if(!campo) return;
-
-campo.classList.remove("requerido");
-
-const label = document.querySelector(`label[for="${nombre}"]`);
-if(label){
-label.classList.remove("label-requerido");
+    const label = document.querySelector(`label[for="${c.id}"]`);
+    if(label){
+      label.classList.remove("label-requerido");
+    }
+  });
 }
 
-});
+function iluminar(campo){
+  if(!campo) return;
 
+  campo.classList.add("requerido");
+
+  const label = document.querySelector(`label[for="${campo.id}"]`);
+  if(label){
+    label.classList.add("label-requerido");
+  }
 }
 
-function iluminar(lista){
+categoria.addEventListener("change",function(){
 
-lista.forEach(nombre=>{
+  limpiarCampos();
 
-const campo = campos[nombre];
+  const valor = this.value;
 
-if(!campo) return;
+  if(valor === "Multa"){
+    iluminar(tipoMulta);
+    iluminar(unidad);
+    iluminar(observacion);
+  }
 
-campo.classList.add("requerido");
+  if(valor === "Deuda"){
+    iluminar(monto);
+    iluminar(unidad);
+  }
 
-const label = document.querySelector(`label[for="${nombre}"]`);
+  if(valor === "Saldo"){
+    iluminar(monto);
+    iluminar(unidad);
+  }
 
-if(label){
-label.classList.add("label-requerido");
-}
-
-});
-
-}
-
-categoria.addEventListener("change", function(){
-
-limpiarCampos();
-
-const valor = this.value;
-
-switch(valor){
-
-case "DEUDA":
-case "SALDO A FAVOR":
-iluminar([
-"numero_servicio",
-"notificar",
-"nombre_cliente",
-"telefono_cliente",
-"monto",
-"observacion"
-]);
-break;
-
-case "WARNING":
-iluminar([
-"numero_servicio",
-"unidad",
-"observacion"
-]);
-break;
-
-case "MULTA":
-iluminar([
-"numero_servicio",
-"tipo_multa",
-"notificar",
-"nombre_cliente",
-"telefono_cliente",
-"unidad",
-"observacion"
-]);
-break;
-
-case "LLANTA PINCHADA":
-iluminar([
-"numero_servicio",
-"unidad"
-]);
-break;
-
-case "PENDIENTE DE CIERRE":
-iluminar([
-"numero_servicio",
-"notificar",
-"nombre_cliente",
-"telefono_cliente",
-"unidad",
-"observacion"
-]);
-break;
-
-}
+  if(valor === "Observacion"){
+    iluminar(unidad);
+    iluminar(observacion);
+  }
 
 });
 
