@@ -151,14 +151,12 @@ margin-top:20px;
 font-size:14px;
 }
 
-/* Campo que se debe completar */
 .requerido {
 border:2px solid #6366F1 !important;
 background:#EEF2FF;
 box-shadow:0 0 0 2px rgba(99,102,241,0.15);
 }
 
-/* etiqueta resaltada */
 .label-requerido {
 color:#4338CA;
 font-weight:600;
