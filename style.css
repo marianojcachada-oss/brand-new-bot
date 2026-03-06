@@ -66,6 +66,7 @@ background:white;
 box-sizing:border-box;
 }
 
+/* Cuando el usuario hace click */
 input:focus,
 select:focus,
 textarea:focus{
