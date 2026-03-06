@@ -158,47 +158,108 @@ alert("✅ Reporte enviado");
 
 </script>
 <script>
+
 const categoria = document.getElementById("categoria");
 
-const monto = document.getElementById("monto");
-const tipoMulta = document.getElementById("tipo_multa");
-const unidad = document.getElementById("unidad");
-const observacion = document.getElementById("observacion");
+const campos = {
+numero_servicio: document.getElementById("numero_servicio"),
+notificar: document.getElementById("notificar"),
+nombre_cliente: document.getElementById("nombre_cliente"),
+telefono_cliente: document.getElementById("telefono_cliente"),
+monto: document.getElementById("monto"),
+observacion: document.getElementById("observacion"),
+unidad: document.getElementById("unidad"),
+tipo_multa: document.getElementById("tipo_multa")
+};
 
 function limpiarCampos(){
-  [monto,tipoMulta,unidad,observacion].forEach(c=>{
-    c.classList.remove("requerido");
-  });
+Object.values(campos).forEach(c=>{
+if(c){
+c.classList.remove("requerido");
+}
+});
 }
 
-categoria.addEventListener("change",function(){
+function iluminar(lista){
+lista.forEach(nombre=>{
+if(campos[nombre]){
+campos[nombre].classList.add("requerido");
+}
+});
+}
 
-  limpiarCampos();
+categoria.addEventListener("change", function(){
 
-  const valor = this.value;
+limpiarCampos();
 
-  if(valor === "Multa"){
-    tipoMulta.classList.add("requerido");
-    unidad.classList.add("requerido");
-    observacion.classList.add("requerido");
-  }
+const valor = this.value;
 
-  if(valor === "Deuda"){
-    monto.classList.add("requerido");
-    unidad.classList.add("requerido");
-  }
+switch(valor){
 
-  if(valor === "Saldo"){
-    monto.classList.add("requerido");
-    unidad.classList.add("requerido");
-  }
+case "DEUDA":
+iluminar([
+"numero_servicio",
+"notificar",
+"nombre_cliente",
+"telefono_cliente",
+"monto",
+"observacion"
+]);
+break;
 
-  if(valor === "Observacion"){
-    unidad.classList.add("requerido");
-    observacion.classList.add("requerido");
-  }
+case "SALDO A FAVOR":
+iluminar([
+"numero_servicio",
+"notificar",
+"nombre_cliente",
+"telefono_cliente",
+"monto",
+"observacion"
+]);
+break;
+
+case "WARNING":
+iluminar([
+"numero_servicio",
+"unidad",
+"observacion"
+]);
+break;
+
+case "MULTA":
+iluminar([
+"numero_servicio",
+"tipo_multa",
+"notificar",
+"nombre_cliente",
+"telefono_cliente",
+"unidad",
+"observacion"
+]);
+break;
+
+case "LLANTA PINCHADA":
+iluminar([
+"numero_servicio",
+"unidad"
+]);
+break;
+
+case "PENDIENTE DE CIERRE":
+iluminar([
+"numero_servicio",
+"notificar",
+"nombre_cliente",
+"telefono_cliente",
+"unidad",
+"observacion"
+]);
+break;
+
+}
 
 });
+
 </script>
 </body>
 </html>
