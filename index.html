@@ -157,9 +157,15 @@ alert("✅ Reporte enviado");
 }
 
 </script>
-<script>
+
+  <script>
 
 const categoria = document.getElementById("categoria");
+
+const numero_servicio = document.getElementById("numero_servicio");
+const notificar = document.getElementById("notificar");
+const nombre_cliente = document.getElementById("nombre_cliente");
+const telefono_cliente = document.getElementById("telefono_cliente");
 
 const monto = document.getElementById("monto");
 const tipoMulta = document.getElementById("tipo_multa");
@@ -167,27 +173,20 @@ const unidad = document.getElementById("unidad");
 const observacion = document.getElementById("observacion");
 
 function limpiarCampos(){
-  [monto, tipoMulta, unidad, observacion].forEach(c=>{
-    if(!c) return;
-
-    c.classList.remove("requerido");
-
-    const label = document.querySelector(`label[for="${c.id}"]`);
-    if(label){
-      label.classList.remove("label-requerido");
+  [
+    numero_servicio,
+    notificar,
+    nombre_cliente,
+    telefono_cliente,
+    monto,
+    tipoMulta,
+    unidad,
+    observacion
+  ].forEach(c=>{
+    if(c){
+      c.classList.remove("requerido");
     }
   });
-}
-
-function iluminar(campo){
-  if(!campo) return;
-
-  campo.classList.add("requerido");
-
-  const label = document.querySelector(`label[for="${campo.id}"]`);
-  if(label){
-    label.classList.add("label-requerido");
-  }
 }
 
 categoria.addEventListener("change",function(){
@@ -196,29 +195,63 @@ categoria.addEventListener("change",function(){
 
   const valor = this.value;
 
-  if(valor === "Multa"){
-    iluminar(tipoMulta);
-    iluminar(unidad);
-    iluminar(observacion);
-  }
-
+  /* DEUDA */
   if(valor === "Deuda"){
-    iluminar(monto);
-    iluminar(unidad);
+    numero_servicio.classList.add("requerido");
+    notificar.classList.add("requerido");
+    nombre_cliente.classList.add("requerido");
+    telefono_cliente.classList.add("requerido");
+    monto.classList.add("requerido");
+    observacion.classList.add("requerido");
   }
 
-  if(valor === "Saldo"){
-    iluminar(monto);
-    iluminar(unidad);
+  /* SALDO A FAVOR */
+  if(valor === "Saldo a favor"){
+    numero_servicio.classList.add("requerido");
+    notificar.classList.add("requerido");
+    nombre_cliente.classList.add("requerido");
+    telefono_cliente.classList.add("requerido");
+    monto.classList.add("requerido");
+    observacion.classList.add("requerido");
   }
 
-  if(valor === "Observacion"){
-    iluminar(unidad);
-    iluminar(observacion);
+  /* WARNING */
+  if(valor === "Warning"){
+    numero_servicio.classList.add("requerido");
+    unidad.classList.add("requerido");
+    observacion.classList.add("requerido");
+  }
+
+  /* MULTA */
+  if(valor === "Multa"){
+    numero_servicio.classList.add("requerido");
+    tipoMulta.classList.add("requerido");
+    notificar.classList.add("requerido");
+    nombre_cliente.classList.add("requerido");
+    telefono_cliente.classList.add("requerido");
+    unidad.classList.add("requerido");
+    observacion.classList.add("requerido");
+  }
+
+  /* LLANTA PINCHADA */
+  if(valor === "Llanta pinchada"){
+    numero_servicio.classList.add("requerido");
+    unidad.classList.add("requerido");
+  }
+
+  /* PENDIENTE DE CIERRE */
+  if(valor === "Pendiente de cierre"){
+    numero_servicio.classList.add("requerido");
+    notificar.classList.add("requerido");
+    nombre_cliente.classList.add("requerido");
+    telefono_cliente.classList.add("requerido");
+    unidad.classList.add("requerido");
+    observacion.classList.add("requerido");
   }
 
 });
 
 </script>
+  
 </body>
 </html>
