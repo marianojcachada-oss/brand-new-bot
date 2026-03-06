@@ -157,6 +157,48 @@ alert("✅ Reporte enviado");
 }
 
 </script>
+<script>
+const categoria = document.getElementById("categoria");
 
+const monto = document.getElementById("monto");
+const tipoMulta = document.getElementById("tipo_multa");
+const unidad = document.getElementById("unidad");
+const observacion = document.getElementById("observacion");
+
+function limpiarCampos(){
+  [monto,tipoMulta,unidad,observacion].forEach(c=>{
+    c.classList.remove("requerido");
+  });
+}
+
+categoria.addEventListener("change",function(){
+
+  limpiarCampos();
+
+  const valor = this.value;
+
+  if(valor === "Multa"){
+    tipoMulta.classList.add("requerido");
+    unidad.classList.add("requerido");
+    observacion.classList.add("requerido");
+  }
+
+  if(valor === "Deuda"){
+    monto.classList.add("requerido");
+    unidad.classList.add("requerido");
+  }
+
+  if(valor === "Saldo"){
+    monto.classList.add("requerido");
+    unidad.classList.add("requerido");
+  }
+
+  if(valor === "Observacion"){
+    unidad.classList.add("requerido");
+    observacion.classList.add("requerido");
+  }
+
+});
+</script>
 </body>
 </html>
