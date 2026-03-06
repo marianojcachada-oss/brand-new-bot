@@ -229,53 +229,6 @@ Enviar Reporte
 
 </div>
 
-
-
-<script>
-
-const WEBHOOK="https://defaultc8aebb6cc6aa405da76b057a64fbdc.17.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/6ea21cb8e30342b78e1a6d9240d8b8d7/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=IPeYBhNSwvUwwXcSXfjfwJTnG2AZK76JSXdtavlPa68";
-
-async function enviarReporte(){
-
-const notificarSelect=document.getElementById("notificar");
-
-const notificar=[...notificarSelect.selectedOptions]
-.map(o=>o.value)
-.join(",");
-
-
-const data={
-
-categoria:document.getElementById("categoria").value,
-monto:document.getElementById("monto").value,
-tipo_multa:document.getElementById("tipo_multa").value,
-notificar:notificar,
-unidad:document.getElementById("unidad").value,
-nombre_cliente:document.getElementById("nombre_cliente").value,
-telefono_cliente:document.getElementById("telefono_cliente").value,
-numero_servicio:document.getElementById("numero_servicio").value,
-observacion:document.getElementById("observacion").value,
-
-usuario:"Operador Teams",
-action:"submitReporte",
-fecha:new Date().toISOString()
-
-};
-
-await fetch(WEBHOOK,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify(data)
-});
-
-alert("✅ Reporte enviado");
-
-}
-
-</script>
-
   <script>
 
 const categoria = document.getElementById("categoria");
@@ -372,6 +325,48 @@ categoria.addEventListener("change",function(){
 });
 
 </script>
-  
+
+<script>
+
+const WEBHOOK="https://defaultc8aebb6cc6aa405da76b057a64fbdc.17.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/6ea21cb8e30342b78e1a6d9240d8b8d7/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=IPeYBhNSwvUwwXcSXfjfwJTnG2AZK76JSXdtavlPa68";
+
+async function enviarReporte(){
+
+const notificar=[...document.querySelectorAll('#notificar input:checked')]
+.map(c=>c.value)
+.join(",");
+
+const data={
+
+categoria:document.getElementById("categoria").value,
+monto:document.getElementById("monto").value,
+tipo_multa:document.getElementById("tipo_multa").value,
+notificar:notificar,
+unidad:document.getElementById("unidad").value,
+nombre_cliente:document.getElementById("nombre_cliente").value,
+telefono_cliente:document.getElementById("telefono_cliente").value,
+numero_servicio:document.getElementById("numero_servicio").value,
+observacion:document.getElementById("observacion").value,
+
+usuario:"Operador Teams",
+action:"submitReporte",
+fecha:new Date().toISOString()
+
+};
+
+await fetch(WEBHOOK,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(data)
+});
+
+alert("✅ Reporte enviado");
+
+}
+
+</script>
+
 </body>
 </html>
