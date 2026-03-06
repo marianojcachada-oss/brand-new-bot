@@ -173,19 +173,40 @@ tipo_multa: document.getElementById("tipo_multa")
 };
 
 function limpiarCampos(){
-Object.values(campos).forEach(c=>{
-if(c){
-c.classList.remove("requerido");
+
+Object.entries(campos).forEach(([nombre, campo])=>{
+
+if(!campo) return;
+
+campo.classList.remove("requerido");
+
+const label = document.querySelector(`label[for="${nombre}"]`);
+if(label){
+label.classList.remove("label-requerido");
 }
+
 });
+
 }
 
 function iluminar(lista){
+
 lista.forEach(nombre=>{
-if(campos[nombre]){
-campos[nombre].classList.add("requerido");
+
+const campo = campos[nombre];
+
+if(!campo) return;
+
+campo.classList.add("requerido");
+
+const label = document.querySelector(`label[for="${nombre}"]`);
+
+if(label){
+label.classList.add("label-requerido");
 }
+
 });
+
 }
 
 categoria.addEventListener("change", function(){
@@ -197,16 +218,6 @@ const valor = this.value;
 switch(valor){
 
 case "DEUDA":
-iluminar([
-"numero_servicio",
-"notificar",
-"nombre_cliente",
-"telefono_cliente",
-"monto",
-"observacion"
-]);
-break;
-
 case "SALDO A FAVOR":
 iluminar([
 "numero_servicio",
