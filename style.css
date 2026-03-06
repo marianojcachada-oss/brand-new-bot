@@ -52,8 +52,7 @@ display:block;
 color:#374151;
 }
 
-input[type="text"],
-input[type="number"],
+input,
 select,
 textarea{
 width:100%;
@@ -64,6 +63,7 @@ border:1px solid #E5E7EB;
 font-size:14px;
 transition:all 0.2s ease;
 background:white;
+box-sizing:border-box;
 }
 
 input:focus,
